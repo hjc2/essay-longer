@@ -1,4 +1,5 @@
 
+from numpy import true_divide
 import requests
 from bs4 import BeautifulSoup
 
@@ -7,6 +8,8 @@ def synonyms(term):
     soup = BeautifulSoup(response.text, 'html.parser')
     soup.find('section', {'class': 'css-191l5o0-ClassicContentCard e1qo4u830'})
     return [span.text for span in soup.findAll('a', {'class': 'css-1kg1yv8 eh475bn0'})]
+
+toggle = 0
 
 with open("translation.txt") as f:
 
@@ -21,13 +24,18 @@ for l in code:
     else:
         output.append(l)
 
+    if(toggle > 5):
+        toggle = 0
+        print("          ", end="\r")
+    else:
+        print("*" * toggle, end="\r")
+        toggle += 1
+
 print(output)
 output = " ".join(output)
 
 print(code)
 print(output)
-
-#syn = synonyms("life")
 
 #print(syn)
 #print(max(syn, key=len))
